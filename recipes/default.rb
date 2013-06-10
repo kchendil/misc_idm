@@ -20,47 +20,6 @@ cert=node['misc']['cert']
 direct=node['misc']['direct']
 
 
-# execute "Install Simple NMAS Methods" do
-  # command " LD_LIBRARY_PATH=\"#{build_loc}\" \"#{jre_loc}/bin/java\" -classpath \"#{build_loc}/instutil.jar\":\"#{build_loc}/uainstaller.jar\" -Djava.library.path=\"#{build_loc}\" com.novell.idm.wrapper.tools.InstallNMASmethods localhost #{edirectory_port} \"#{admin_name}\" #{idm_password} /opt/novell/eDirectory/bin/nmasinst \"#{simple_password}\" /var/opt/novell/nmas_simplepassword.log \"cn=Simple Password.cn=Authorized_Login_Methods.cn=Security\" " 
-   # creates "/var/opt/novell/nmas_simplepassword.log"
-  # action :run
-  
-# end
-
-# execute "Install Certifcate NMAS Methods" do
-  # command " LD_LIBRARY_PATH=\"#{build_loc}\" \"#{jre_loc}/bin/java\" -classpath \"#{build_loc}/instutil.jar\":\"#{build_loc}/uainstaller.jar\" -Djava.library.path=\"#{build_loc}\" com.novell.idm.wrapper.tools.InstallNMASmethods localhost #{edirectory_port} \"#{admin_name}\" #{idm_password} /opt/novell/eDirectory/bin/nmasinst \"#{cert}\" /var/opt/novell/nmas_cert.log \"cn=CertMutual.cn=Authorized_Login_Methods.cn=Security\" " 
-   # creates "/var/opt/novell/nmas_simplepassword.log"
-  # action :run
-  
-# end
-
-# nmas_install "cert" do
-  # enable true
-# end
-
-# nmas_install "simple" do
-  # enable true
-# end
-
-# nmas_install "saml" do
-  # enable true
-# end
-
-# nmas_install "digest" do
-  # enable true
-# end
-
-
-
-# LD_LIBRARY_PATH="/AE/install/utilities"  "/AE/install/utilities/ldapmodify" -ZZ -h 127.0.0.1 -p 389 -D "cn=admin,ou=sa,o=system" -w ****** -a -c -f "/AE/install/utilities/idvault_default_new_dit.ldif"
-  # exitValue = 0
-# /opt/novell/eDirectory/bin/dxcmd -user "admin.sa.system" -host 127.0.0.1 -port 524 -password ****** -dnform dot -version 4.0.0 -setdriverset "driverset1.system" > "/var/opt/novell/idm/install/logs/idm_dxcmd_setdriverset.log"
-  # exitValue = 0
-# LD_LIBRARY_PATH="/AE/install/utilities" "/opt/novell/idm/jre/bin/java" -classpath "/AE/install/utilities/instutil.jar":"/AE/install/utilities/uainstaller.jar" -Djava.library.path="/AE/install/utilities" com.novell.idm.wrapper.tools.TriggerPartitionOperation 127.0.0.1 636 "cn=admin,ou=sa,o=system" ****** "cn=driverset1,o=system" > "/var/opt/novell/idm/install/logs/idm_partition_operation.log"
-  # exitValue = 0
-
-
-
  execute "Enable Advanced Edition" do
    command "  echo 3 > \"/var/opt/novell/eDirectory/data/dib/.idme\" " 
     creates "/var/opt/novell/eDirectory/data/dib/.idme"
@@ -69,8 +28,8 @@ direct=node['misc']['direct']
  end
 
   execute "Password Policies" do
-   command " LD_LIBRARY_PATH=\"#{build_loc}\"  \"#{build_loc}/ldapmodify\" -ZZ -h 127.0.0.1 -p #{ldap_port} -D \"#{dn_admin_name}\" -w #{idm_password} -a -c -f \"#{build_loc}/idvault_default_new_dit.ldif\" " 
-   # creates "/var/opt/novell/eDirectory/data/dib/.idme"
+   command " LD_LIBRARY_PATH=\"#{build_loc}\"  \"#{build_loc}/ldapmodify\" -ZZ -h 127.0.0.1 -p #{ldap_port} -D \"#{dn_admin_name}\" -w #{idm_password} -a -c -f \"#{build_loc}/idvault_default_new_dit.ldif\" > /var/opt/novell/idm_password_policy.log" 
+   creates "/var/opt/novell/idm_password_policy.log"
    action :run
   
  end
